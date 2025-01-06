@@ -59,6 +59,16 @@
         return firstNonAnseredQuestionIndex;
     }
 
+    $effect.pre(() => {
+
+        showAnswer = false;
+
+
+
+        // Make sure currentQuestionIndex is read synchronously, thus make Svelte run this function every time currentQuestionIndex changes
+        const _ = currentQuestionIndex;
+    });
+
     $inspect(questionList);
     $inspect(answeredQuestions);
 </script>
