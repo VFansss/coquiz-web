@@ -4,7 +4,7 @@
 
 Web-app made for executing quizzes from files.
 
-Built with Svelte and SvelteKit static site generator.
+Built with Svelte 5 and SvelteKit static site generator.
 
 ## Features
 
@@ -19,7 +19,7 @@ Built with Svelte and SvelteKit static site generator.
 This project is built with:
 
 - [SvelteKit](https://kit.svelte.dev/) - Application framework
-- [Svelte](https://svelte.dev/) - Component framework
+- [Svelte 5](https://svelte.dev/) - Component framework
 - [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
 
 ## Development
