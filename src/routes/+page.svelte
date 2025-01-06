@@ -1,4 +1,8 @@
 <script>
+
+	// Svelte base path
+	import { base } from '$app/paths';
+
 	// Svelte Components
 	import QuizRunner from './QuizRunner.svelte';
 	import QuizPartitionSelector from './QuizPartitionSelector.svelte';
@@ -133,7 +137,7 @@
         <!-- Header section with logo and title - ora con grid -->
 		<div class="flex flex-wrap justify-center items-center gap-x-2 md:gap-x-12 gap-y-4 mb-12 md:mb-16 text-center">
 			<img
-				src="/coquiz-logo.svg"
+				src={base+"/coquiz-logo.svg"}
 				alt="Coquiz Logo"
 				class="h-16 md:h-24 w-auto"
 			/>
