@@ -11,6 +11,7 @@
     let showRecap = $state(false);
     let showAnswer = $state(false);
     let isHorizontalLayout = $state(false);
+    let scrollPoint; // Used to store the scroll position when switching between questions
 
     let answeredQuestions = $derived(
         questionList.filter((question) => QuestionSheet.isAnswerSelectionComplete(question)).length
@@ -63,7 +64,9 @@
 
         showAnswer = false;
 
-
+        if (scrollPoint) {
+            scrollPoint.scrollIntoView({ behavior: 'smooth' });
+        }
 
         // Make sure currentQuestionIndex is read synchronously, thus make Svelte run this function every time currentQuestionIndex changes
         const _ = currentQuestionIndex;
@@ -100,7 +103,7 @@
             <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200">
                 {quizInfo.title}
             </h2>
-            <p class="mt-2 text-gray-600 dark:text-gray-400">
+            <p bind:this={scrollPoint} class="mt-2 text-gray-600 dark:text-gray-400">
                 Domanda {currentQuestionIndex + 1} di {questionList.length}
             </p>
         </div>
