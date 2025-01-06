@@ -198,7 +198,7 @@
                     </p>
 
                     <p
-                        class="mt-4 text-lg font-medium text-red-600 underline decoration-red-500 decoration-wavy dark:text-red-400"
+                        class="mt-4 text-lg font-medium text-red-600 decoration-red-500 dark:text-red-400"
                     >
                         Non hai risposto a tutte le domande
                     </p>
