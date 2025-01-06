@@ -10,7 +10,7 @@
 
     // List of words to cycle through
     // TODO: avoid hardcoding
-    const originalPrefixes = ["Collaborative", "Cooperative", "Connected", "Community"];
+    const originalPrefixes = ["Collaborative", "Cooperative", "Connected", "Community", "Collective","Companion"];
 
     // Function to randomize the array
     function shuffleArray(array) {

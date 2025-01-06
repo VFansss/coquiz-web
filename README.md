@@ -4,7 +4,7 @@
 
 Web-app made for executing quizzes from files.
 
-Build with Svelte and SvelteKit static site generator.
+Built with Svelte and SvelteKit static site generator.
 
 ## Features
 
