@@ -31,7 +31,18 @@ export default class QuizSheet {
                 );
 
             }
-            if (options.shuffleQuestions) sessionQuestionList.sort(() => Math.random() - 0.5);
+
+            
+            if (options.shuffleQuestions || options.limitQuestions){
+                // Sort question list randomly
+                sessionQuestionList.sort(() => Math.random() - 0.5);
+            }
+            
+            if (options.limitQuestions) {
+                // Then take only the first N questions
+                sessionQuestionList = sessionQuestionList.slice(0, options.questionsLimit);
+            }
+            
             if (options.shuffleAnswers) {
 
                 sessionQuestionList.forEach(singleQuestion => {
