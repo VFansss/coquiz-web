@@ -45,6 +45,23 @@
 		}
 	});
 
+	// Activate shuffle questions when limiting questions
+	$effect(() => {
+		if (appSettings.limitQuestions) {
+			appSettings.shuffleQuestions = true;
+		}
+	});
+
+	// maintain "answer limit" within the bounds of the question list
+	$effect(() => {
+		if (loadedQuizSheet) {
+			appSettings.questionsLimit = Math.min(
+				Math.max(1, appSettings.questionsLimit),
+				loadedQuizSheet.questionList.length
+			);
+		}
+	});
+
 	// State management vars
 
 	let fileInput = $state({}); // Reference to input DOM node
@@ -102,7 +119,9 @@
 		shuffleQuestions: false,
 		shuffleAnswers: false,
 		currentFraction: 1,
-		selectedSubpart: 1
+		selectedSubpart: 1,
+		limitQuestions: false,
+    	questionsLimit: 30  // default value
 	});
 
 	const BUILD_NUMBER = import.meta.env.VITE_BUILD_NUMBER;
@@ -218,25 +237,78 @@
 
 								{#if appSettings.currentFraction !== 1}
 									<p class="mt-4 text-center text-gray-600 dark:text-gray-400">
-										Svolgerai una frazione del quiz, da {selectedQuizPartLength} domande
+										Dell'intero quiz, prenderai solamente una frazione da {selectedQuizPartLength} domande
 									</p>
 								{/if}
 							</div>
 						{/if}
 					</div>
 
-					<!-- Checkbox options -->
-					<div class="mx-auto max-w-md rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
+					<!-- Question/answer extra options -->
+					<div class="mx-auto max-w-md space-y-6 rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
+						<!-- Question options -->
 						<div class="space-y-4">
+							<h3 class="font-medium text-gray-900 dark:text-gray-100">Opzioni Domande</h3>
+							
+							<label class="flex items-center cursor-pointer space-x-3">
+								<input
+									type="checkbox"
+									bind:checked={appSettings.limitQuestions}
+									class="h-6 w-6 rounded cursor-pointer border-gray-300 text-blue-600 focus:ring-blue-500"
+								/>
+								<span class="text-gray-700 dark:text-gray-300">Limita quiz a</span>
+								
+								<!-- Gruppo controllo numerico -->
+								<div class="flex items-center space-x-2">
+									<button 
+										class="px-2 py-1 rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 disabled:opacity-50"
+										disabled={!appSettings.limitQuestions || appSettings.questionsLimit <= 10}
+										onclick={() => appSettings.questionsLimit = Math.max(10, appSettings.questionsLimit - 10)}
+									>
+										-
+									</button>
+							
+									<input 
+										type="number"
+										bind:value={appSettings.questionsLimit}
+										min="1"
+										max={loadedQuizSheet?.questionList.length ?? 1}
+										class="w-20 rounded border border-gray-300 p-1 text-center 
+											dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
+										disabled={!appSettings.limitQuestions}
+										onclick={(e) => e.target.select()} 
+										ontouch={(e) => e.target.select()}
+									/>
+							
+									<button 
+										class="px-2 py-1 rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 disabled:opacity-50"
+										disabled={!appSettings.limitQuestions || appSettings.questionsLimit >= loadedQuizSheet?.questionList.length}
+										onclick={() => appSettings.questionsLimit = Math.min(loadedQuizSheet?.questionList.length ?? 1, appSettings.questionsLimit + 10)}
+									>
+										+
+									</button>
+								</div>
+							
+								<span class="text-gray-700 dark:text-gray-300">domande</span>
+							</label>
+
 							<label class="flex items-center cursor-pointer space-x-3">
 								<input
 									type="checkbox"
 									bind:checked={appSettings.shuffleQuestions}
-									class="h-6 w-6 rounded cursor-pointer border-gray-300 text-blue-600 focus:ring-blue-500"
+									disabled={appSettings.limitQuestions}
+									class="h-6 w-6 rounded cursor-pointer border-gray-300 text-blue-600 focus:ring-blue-500 disabled:opacity-50"
 								/>
-								<span class="text-gray-700 dark:text-gray-300">Mescola ordine delle domande</span>
+								<span class="text-gray-700 dark:text-gray-300 {appSettings.limitQuestions ? 'opacity-50' : ''}">
+									Mescola ordine delle domande
+								</span>
 							</label>
+						</div>
 
+						<!-- Answer options -->
+						<div class="space-y-4">
+							<h3 class="font-medium text-gray-900 dark:text-gray-100">Opzioni Risposte</h3>
+							
 							<label class="flex items-center cursor-pointer space-x-3">
 								<input
 									type="checkbox"
