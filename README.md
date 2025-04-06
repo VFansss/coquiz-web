@@ -4,6 +4,8 @@
 
 Web-app made for executing quizzes from files.
 
+👉 [Use it online! No download required!](https://vfansss.github.io/coquiz-web/)
+
 Built with Svelte 5 and SvelteKit static site generator.
 
 ## Features
