@@ -104,9 +104,6 @@
             <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200">
                 {quizInfo.title}
             </h2>
-            <p bind:this={scrollPoint} class="mt-2 text-gray-600 dark:text-gray-400">
-                Domanda {currentQuestionIndex + 1} di {questionList.length}
-            </p>
         </div>
 
         <!-- Quiz Content Layout -->
@@ -115,7 +112,13 @@
             <div
                 class={`${isHorizontalLayout ? 'w-1/2' : 'w-full'} rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800`}
             >
-                <h3 class="mb-4 text-lg font-medium text-gray-900 dark:text-gray-100">Domanda</h3>
+            <h3 class="mb-4 text-lg font-medium text-gray-900 dark:text-gray-100">
+                Domanda
+                <span class="ml-2 text-sm text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-2 py-1 rounded-lg bg-gray-50 dark:bg-gray-700">
+                {currentQuestionIndex + 1} di {questionList.length}
+                </span>
+            </h3>
+            
                 {#each questionList as singleQuestion, questionIndex}
                     {#if currentQuestionIndex === questionIndex}
                         <div class="space-y-4">
