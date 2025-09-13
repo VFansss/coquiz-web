@@ -511,5 +511,27 @@
 		transition:
 			background-color 0.3s ease,
 			color 0.3s ease;
+		/* Gestione overscroll per mobile */
+		overscroll-behavior: none;
+		/* Colore di sfondo per l'area di overscroll */
+		background-color: #f3f4f6; /* gray-100 per tema chiaro */
+	}
+
+	:global(html.dark) {
+		background-color: #0f1729; /* colore scuro che matcha il gradiente */
+	}
+
+	:global(body) {
+		/* Previene il bounce su iOS */
+		overscroll-behavior: none;
+		/* Assicura che il body copra tutta l'area */
+		min-height: 100vh;
+		background-color: inherit;
+	}
+
+	/* Previene lo scroll elastico su iOS Safari */
+	:global(html, body) {
+		touch-action: manipulation;
+		-webkit-overflow-scrolling: touch;
 	}
 </style>
