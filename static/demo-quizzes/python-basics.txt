@@ -18,3 +18,87 @@
 |+ lista = list()
 |- lista = {}
 |- lista = new List()
+
+|||||
+|| Quali di questi sono tipi di dati numerici in Python?
+|+ int
+|+ float
+|+ complex
+|- string
+
+|||||
+|| Cosa stampa questo codice: print(type(5.0))?
+|- <class 'int'>
+|+ <class 'float'>
+|- <class 'str'>
+|- <class 'decimal'>
+
+|||||
+|| Come si converte una stringa in intero in Python?
+|- str(x)
+|+ int(x)
+|- float(x)
+|- number(x)
+
+|||||
+|| Quali sono modi validi per creare un dizionario vuoto?
+|+ dizionario = {}
+|+ dizionario = dict()
+|- dizionario = []
+|- dizionario = set()
+
+|||||
+|| Cosa fa l'operatore % in Python?
+|- Divisione
+|+ Modulo (resto della divisione)
+|- Moltiplicazione
+|- Esponente
+
+|||||
+|| Come si accede al primo elemento di una lista chiamata 'numeri'?
+|+ numeri[0]
+|- numeri[1]
+|- numeri.first()
+|- numeri.get(0)
+
+|||||
+|| Quali di questi sono metodi validi per le stringhe in Python?
+|+ .upper()
+|+ .lower()
+|+ .strip()
+|- .push()
+
+|||||
+|| Come si definisce una classe in Python?
+|+ class MiaClasse:
+|- Class MiaClasse:
+|- def class MiaClasse:
+|- create class MiaClasse:
+
+|||||
+|| Cosa restituisce len([1, 2, 3, 4])?
+|- 3
+|+ 4
+|- 5
+|- None
+
+|||||
+|| Quali sono strutture dati mutabili in Python?
+|+ list
+|+ dict
+|+ set
+|- tuple
+
+|||||
+|| Come si importa il modulo math in Python?
+|+ import math
+|- include math
+|- using math
+|- require math
+
+|||||
+|| Cosa fa il comando 'break' in un loop?
+|- Continua alla prossima iterazione
+|+ Esce completamente dal loop
+|- Riavvia il loop
+|- Ferma il programma
