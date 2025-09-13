@@ -146,13 +146,13 @@
                                         type="checkbox"
                                         bind:checked={singleAnswer.checked}
                                         onclick={(event) => handleCheckboxChange(event, singleQuestion, singleAnswer)}
-                                        class="h-5 w-5 cursor-pointer rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                                        class="h-5 w-5 cursor-pointer rounded border-gray-300 text-blue-600 focus:ring-blue-500 
+                                               {showAnswer && singleAnswer.isCorrect && singleAnswer.checked ? 'correct-answer-highlight' : ''} 
+                                               {showAnswer && singleAnswer.isCorrect && !singleAnswer.checked ? 'correct-answer-highlight' : ''} 
+                                               {showAnswer && !singleAnswer.isCorrect && singleAnswer.checked ? 'missed-correct-answer-highlight' : ''}"
                                     />
                                     <span class="flex-1 text-gray-800 dark:text-gray-200">
                                         {singleAnswer.answerBody}
-                                        {#if showAnswer && singleAnswer.isCorrect}
-                                            <span class="ml-2 text-green-500">✓</span>
-                                        {/if}
                                     </span>
                                 </label>
                             {/each}
@@ -163,6 +163,7 @@
         </div>
     </div>
 {:else}
+    <!-- Recap screen -->
     <div class="mx-auto max-w-2xl px-4">
         <div class="rounded-lg bg-white p-8 shadow-lg dark:bg-gray-800">
             <!-- Summary Title -->
@@ -289,4 +290,49 @@
 </div>
 
 <style>
+    .correct-answer-highlight {
+        box-shadow: 
+            0 0 0 2px rgba(34, 197, 94, 0.8),
+            0 0 10px rgba(34, 197, 94, 0.3),
+            0 0 20px rgba(34, 197, 94, 0.1);
+        border-color: rgb(34, 197, 94) !important;
+        transition: all 0.3s ease;
+        transform: scale(1.2);
+        background-color: rgba(34, 197, 94, 0.1) !important;
+    }
+    
+    .correct-answer-highlight:hover {
+        box-shadow: 
+            0 0 0 2px rgba(34, 197, 94, 1),
+            0 0 15px rgba(34, 197, 94, 0.4),
+            0 0 25px rgba(34, 197, 94, 0.2);
+    }
+
+    .correct-answer-highlight:checked {
+        background-color: rgb(37, 99, 235) !important; /* blue-600 */
+        border-color: rgb(34, 197, 94) !important;
+    }
+
+    .correct-answer-highlight:checked:hover {
+        background-color: rgb(29, 78, 216) !important; /* blue-700 */
+    }
+
+    .missed-correct-answer-highlight {
+        box-shadow: 
+            0 0 0 2px rgba(239, 68, 68, 0.8),
+            0 0 10px rgba(239, 68, 68, 0.3),
+            0 0 20px rgba(239, 68, 68, 0.1);
+        border-color: rgb(239, 68, 68) !important;
+        transition: all 0.3s ease;
+        transform: scale(1.2);
+        background-color: rgba(239, 68, 68, 0.1) !important;
+    }
+    
+    .missed-correct-answer-highlight:hover {
+        box-shadow: 
+            0 0 0 2px rgba(239, 68, 68, 1),
+            0 0 15px rgba(239, 68, 68, 0.4),
+            0 0 25px rgba(239, 68, 68, 0.2);
+        background-color: rgba(239, 68, 68, 0.2) !important;
+    }
 </style>
