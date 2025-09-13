@@ -97,6 +97,7 @@
 </div>
 
 {#if !showRecap}
+
     <!-- Main Quiz Content -->
     <div class="mx-auto max-w-7xl px-4">
         <!-- Quiz Progress -->
@@ -312,12 +313,13 @@
     }
 
     .correct-answer-highlight:checked {
-        background-color: rgb(37, 99, 235) !important; /* blue-600 */
+        background-color: rgb(21, 128, 61) !important; /* green-700 - verde scuro per contrasto */
         border-color: rgb(34, 197, 94) !important;
+        color: white !important;
     }
 
     .correct-answer-highlight:checked:hover {
-        background-color: rgb(29, 78, 216) !important; /* blue-700 */
+        background-color: rgb(22, 101, 52) !important; /* green-800 */
     }
 
     .missed-correct-answer-highlight {
@@ -337,5 +339,14 @@
             0 0 15px rgba(239, 68, 68, 0.4),
             0 0 25px rgba(239, 68, 68, 0.2);
         background-color: rgba(239, 68, 68, 0.2) !important;
+    }
+
+    .missed-correct-answer-highlight:checked {
+        background-color: rgb(185, 28, 28) !important; /* red-700 - più scuro per contrasto */
+        color: white !important;
+    }
+
+    .missed-correct-answer-highlight:checked:hover {
+        background-color: rgb(153, 27, 27) !important; /* red-800 */
     }
 </style>
