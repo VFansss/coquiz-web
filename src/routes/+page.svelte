@@ -320,63 +320,61 @@
 
 					<!-- Question/answer extra options -->
 					<div class="mx-auto max-w-4xl rounded-lg bg-white p-3 sm:p-6 shadow-sm dark:bg-gray-800">
-						<div class="flex flex-col lg:flex-row lg:gap-8 space-y-6 lg:space-y-0">
+						<div class="flex flex-col lg:flex-row lg:gap-8 space-y-6 lg:space-y-0 lg:items-stretch">
 							<!-- Question options -->
-							<div class="lg:flex-1">
+							<div class="lg:flex-1 flex flex-col">
 								<div class="flex items-center space-x-2 mb-4">
 									<span class="text-xl">❓</span>
 									<h3 class="font-semibold text-lg text-gray-900 dark:text-gray-100">Opzioni Domande</h3>
 								</div>
 								
 								<!-- Contenitore per tutte le opzioni domande -->
-								<div class="bg-gray-50 dark:bg-gray-700/30 border border-gray-200 dark:border-gray-700 rounded-lg p-3 sm:p-4 space-y-4">
-									<!-- Limita quiz -->
-									<div class="flex flex-col gap-3">
-										<label class="flex items-center cursor-pointer space-x-3">
-											<input
-												type="checkbox"
-												bind:checked={appSettings.limitQuestions}
-												class="h-5 w-5 rounded cursor-pointer border-gray-300 text-blue-600 focus:ring-blue-500"
+								<div class="bg-gray-50 dark:bg-gray-700/30 border border-gray-200 dark:border-gray-700 rounded-lg p-3 sm:p-4 space-y-4 flex-1">
+								<!-- Limita quiz -->
+								<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+									<label class="flex items-center cursor-pointer space-x-3">
+										<input
+											type="checkbox"
+											bind:checked={appSettings.limitQuestions}
+											class="h-5 w-5 rounded cursor-pointer border-gray-300 text-blue-600 focus:ring-blue-500"
+										/>
+										<span class="text-gray-700 dark:text-gray-300">Limita quiz a</span>
+									</label>
+									
+									<!-- Controlli numerici - allineati a destra su dispositivi medi/grandi -->
+									<div class="flex items-center gap-2 ml-8 sm:ml-0">
+										<div class="flex items-center space-x-2">
+											<button 
+												class="px-2 py-1 text-sm rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-500 text-gray-700 dark:text-gray-300 disabled:opacity-50 min-w-[24px]"
+												disabled={appSettings.questionsLimit <= 10}
+												onclick={() => appSettings.questionsLimit = Math.max(10, appSettings.questionsLimit - 10)}
+											>
+												-
+											</button>
+									
+											<input 
+												type="number"
+												bind:value={appSettings.questionsLimit}
+												min="1"
+												max={loadedQuizSheet?.questionList.length ?? 1}
+												class="w-20 text-sm rounded border border-gray-300 p-1 text-center 
+													dark:bg-gray-600 dark:border-gray-500 dark:text-gray-200"
+												onclick={(e) => e.target.select()} 
+												ontouch={(e) => e.target.select()}
 											/>
-											<span class="text-gray-700 dark:text-gray-300">Limita quiz a</span>
-										</label>
-										
-										<!-- Controlli numerici - stack verticale su dispositivi molto piccoli -->
-										<div class="flex flex-col xs:flex-row items-start xs:items-center gap-2 xs:gap-2 ml-8 xs:ml-0">
-											<div class="flex items-center space-x-1 xs:space-x-2">
-												<button 
-													class="px-1.5 xs:px-2 py-1 text-sm rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-500 text-gray-700 dark:text-gray-300 disabled:opacity-50 min-w-[24px]"
-													disabled={appSettings.questionsLimit <= 10}
-													onclick={() => appSettings.questionsLimit = Math.max(10, appSettings.questionsLimit - 10)}
-												>
-													-
-												</button>
-										
-												<input 
-													type="number"
-													bind:value={appSettings.questionsLimit}
-													min="1"
-													max={loadedQuizSheet?.questionList.length ?? 1}
-													class="w-16 xs:w-20 text-sm rounded border border-gray-300 p-1 text-center 
-														dark:bg-gray-600 dark:border-gray-500 dark:text-gray-200"
-													onclick={(e) => e.target.select()} 
-													ontouch={(e) => e.target.select()}
-												/>
-										
-												<button 
-													class="px-1.5 xs:px-2 py-1 text-sm rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-500 text-gray-700 dark:text-gray-300 disabled:opacity-50 min-w-[24px]"
-													disabled={appSettings.questionsLimit >= loadedQuizSheet?.questionList.length}
-													onclick={() => appSettings.questionsLimit = Math.min(loadedQuizSheet?.questionList.length ?? 1, appSettings.questionsLimit + 10)}
-												>
-													+
-												</button>
-											</div>
-											
-											<span class="text-sm xs:text-base text-gray-700 dark:text-gray-300">domande</span>
+									
+											<button 
+												class="px-2 py-1 text-sm rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-500 text-gray-700 dark:text-gray-300 disabled:opacity-50 min-w-[24px]"
+												disabled={appSettings.questionsLimit >= loadedQuizSheet?.questionList.length}
+												onclick={() => appSettings.questionsLimit = Math.min(loadedQuizSheet?.questionList.length ?? 1, appSettings.questionsLimit + 10)}
+											>
+												+
+											</button>
 										</div>
+										
+										<span class="text-sm text-gray-700 dark:text-gray-300">domande</span>
 									</div>
-
-									<!-- Separatore -->
+								</div>									<!-- Separatore -->
 									<hr class="border-gray-300 dark:border-gray-600" />
 
 									<!-- Mescola ordine -->
@@ -395,14 +393,14 @@
 							</div>
 
 							<!-- Answer options -->
-							<div class="lg:flex-1">
+							<div class="lg:flex-1 flex flex-col">
 								<div class="flex items-center space-x-2 mb-4">
 									<span class="text-xl">💡</span>
 									<h3 class="font-semibold text-lg text-gray-900 dark:text-gray-100">Opzioni Risposte</h3>
 								</div>
 								
 								<!-- Contenitore per tutte le opzioni risposte -->
-								<div class="bg-gray-50 dark:bg-gray-700/30 border border-gray-200 dark:border-gray-700 rounded-lg p-3 sm:p-4 space-y-4">
+								<div class="bg-gray-50 dark:bg-gray-700/30 border border-gray-200 dark:border-gray-700 rounded-lg p-3 sm:p-4 space-y-4 flex-1">
 									<!-- Mescola risposte -->
 									<label class="flex items-center cursor-pointer space-x-3">
 										<input
