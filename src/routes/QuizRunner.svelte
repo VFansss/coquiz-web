@@ -126,9 +126,6 @@
                             <p class="text-gray-800 dark:text-gray-200">
                                 {singleQuestion.body}
                             </p>
-                            <p class="text-sm text-gray-600 dark:text-gray-400">
-                                Risposte corrette: {singleQuestion.correctAnswerNumber}
-                            </p>
                         </div>
                     {/if}
                 {/each}
@@ -138,9 +135,14 @@
             <div
                 class={`${isHorizontalLayout ? 'w-1/2' : 'w-full'} rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800`}
             >
-                <h3 class="mb-4 text-lg font-medium text-gray-900 dark:text-gray-100">Risposte</h3>
                 {#each questionList as singleQuestion, questionIndex}
                     {#if currentQuestionIndex === questionIndex}
+                        <h3 class="mb-4 text-lg font-medium text-gray-900 dark:text-gray-100">
+                            Risposte 
+                            <span class="ml-2 text-sm text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-2 py-1 rounded-lg bg-gray-50 dark:bg-gray-700">
+                                {singleQuestion.correctAnswerNumber} {singleQuestion.correctAnswerNumber === 1 ? 'corretta' : 'corrette'}
+                            </span>
+                        </h3>
                         <div class="space-y-3">
                             {#each singleQuestion.answerList as singleAnswer, answerIndex}
                                 <label
