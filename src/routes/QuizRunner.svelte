@@ -17,8 +17,12 @@
     let showRecap = $state(false);
     let showAnswer = $state(false);
     let isHorizontalLayout = $state(false);
+
+    // Scroll related vars
     // svelte-ignore non_reactive_update
-    let scrollPoint; // Used to store the scroll position when switching between questions
+    let quizTitleSectionPoint; // Used to store the scroll position when switching between questions
+    // svelte-ignore non_reactive_update
+    let answersSectionPoint; // Used to scroll to answers section when showing answers
 
     let answeredQuestions = $derived(
         questionList.filter((question) => QuestionSheet.isAnswerSelectionComplete(question)).length
@@ -87,8 +91,10 @@
             // Every question has been answered
             toggleRecapScreen(true);
         } else {
-            currentQuestionIndex = firstNonAnseredQuestionIndex;
+            // First hide recap screen to ensure DOM is updated
             toggleRecapScreen(false);
+            // Then update the question index, which will trigger the scroll effect
+            currentQuestionIndex = firstNonAnseredQuestionIndex;
         }
 
         return firstNonAnseredQuestionIndex;
@@ -108,13 +114,27 @@
         
         // Use tick to wait for DOM updates, then scroll
         tick().then(() => {
-            if (scrollPoint) {
-                scrollPoint.scrollIntoView({ 
+            if (quizTitleSectionPoint) {
+                quizTitleSectionPoint.scrollIntoView({ 
                     behavior: 'smooth',
                     block: 'start'
                 });
             }
         });
+    });
+
+    // Smooth scroll to answers section when showAnswer changes
+    $effect(() => {
+        const _ = showAnswer; // Make this reactive to showAnswer
+        
+        if (showAnswer && answersSectionPoint) {
+            tick().then(() => {
+                answersSectionPoint.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            });
+        }
     });
 
     $inspect(questionList);
@@ -173,7 +193,7 @@
 {#if !showRecap}
 
     <!-- Main Quiz Content -->
-    <div class="mx-auto max-w-7xl px-4" bind:this={scrollPoint}>
+    <div class="mx-auto max-w-7xl px-4" bind:this={quizTitleSectionPoint}>
         <!-- Quiz Progress -->
         <div class="mb-6 text-center">
             <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200">
@@ -208,6 +228,7 @@
             <!-- Answers Section -->
             <div
                 class={`${isHorizontalLayout ? 'w-1/2' : 'w-full'} rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800`}
+                bind:this={answersSectionPoint}
             >
                 {#each questionList as singleQuestion, questionIndex}
                     {#if currentQuestionIndex === questionIndex}
