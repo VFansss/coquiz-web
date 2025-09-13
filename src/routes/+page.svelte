@@ -70,6 +70,28 @@
 	let loadedQuizSheet = $state(null); // QuizSheet
 	const contentRetriever = new ContentRetriever();
 
+	// Auto-discovery dei quiz disponibili usando Vite's import.meta.glob
+	const availableDemoQuizzes = import.meta.glob('/static/demo-quizzes/*.{md,txt}', { 
+		as: 'raw',
+		eager: false 
+	});
+
+	// Estrai i nomi dei quiz dal path
+	const demoQuizList = Object.keys(availableDemoQuizzes).map(path => {
+		const filename = path.split('/').pop();
+		const name = filename.replace(/\.(md|txt)$/, '');
+		const title = name.split('-').map(word => 
+			word.charAt(0).toUpperCase() + word.slice(1)
+		).join(' ');
+		
+		return {
+			filename,
+			name,
+			title,
+			path
+		};
+	});
+
 	let selectedQuizPartLength = $derived(
 		!loadedQuizSheet
 			? 0
@@ -112,6 +134,26 @@
 			alert(`Errore nella lettura del file: ${error.message}`);
 
 			return;
+		}
+	}
+
+	async function loadDemoQuiz(quizPath, quizTitle) {
+		try {
+			// Carica il quiz usando l'import dinamico
+			const content = await availableDemoQuizzes[quizPath]();
+			
+			// Show content (for debug)
+			fileContent.textContent = content;
+
+			const detectedFormatType = supportedFormats.detect(content);
+
+			if (detectedFormatType === null) throw new Error('Formato quiz non supportato');
+
+			loadedQuizSheet = detectedFormatType.getQuizSheet(quizTitle, content);
+			
+		} catch (error) {
+			console.error(`Errore nel caricamento del quiz: ${error.message}`, error);
+			alert(`Errore nel caricamento del quiz: ${error.message}`);
 		}
 	}
 
@@ -188,8 +230,35 @@
 				</div>
 
 				<p class="text-center text-sm text-gray-600 dark:text-gray-400">
-					Carica un file di quiz in formato .txt o .md
+					Carica un file di quiz in formato .txt o .md, oppure prova un quiz demo:
 				</p>
+				
+				{#if demoQuizList.length > 0}
+					<div class="text-center space-y-2">
+						<p class="text-xs text-gray-500 dark:text-gray-400 font-medium">
+							Quiz disponibili:
+						</p>
+						<div class="flex flex-wrap justify-center gap-2">
+							{#each demoQuizList as quiz}
+								<button 
+									onclick={() => loadDemoQuiz(quiz.path, quiz.title)}
+									class="group inline-flex items-center gap-1 text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 transition-colors cursor-pointer px-2 py-1 rounded-md hover:bg-green-50 dark:hover:bg-green-900/20"
+								>
+									<span class="text-xs font-medium border-b border-dotted border-green-600 dark:border-green-400 group-hover:border-solid">
+										📄 {quiz.title}
+									</span>
+									<span class="text-xs group-hover:translate-x-0.5 transition-transform duration-200">→</span>
+								</button>
+							{/each}
+						</div>
+					</div>
+				{:else}
+					<div class="text-center">
+						<p class="text-xs text-gray-500 dark:text-gray-400">
+							Nessun quiz demo disponibile!
+						</p>
+					</div>
+				{/if}
 
 				<input
 					type="file"

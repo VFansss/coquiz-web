@@ -10,7 +10,8 @@ Built with Svelte 5 and SvelteKit static site generator.
 
 ## Features
 
-- **Dynamic Quiz Loading** 📂: Load quiz content from files.
+- **Dynamic Quiz Loading** 📂: Load quiz content from files
+  - Supports loading demo quizzes directly from the app
 - **Quiz Format Support** 📚: Supports multiple quiz formats through a registry.
 - **Theming** 🎨: Supports dark and light themes.
 - **Modal Display** 🖼️: Display file content in a modal with scrollable content.

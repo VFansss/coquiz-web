@@ -1,0 +1,20 @@
+|||||
+|| Come si scrive "Hello World" in Python?
+|- echo "Hello World"
+|+ print("Hello World")
+|- console.log("Hello World")
+|- System.out.println("Hello World")
+
+|||||
+|| Quale di questi è il modo corretto per definire una funzione in Python?
+|+ def mia_funzione():
+|- function mia_funzione():
+|- func mia_funzione():
+|- void mia_funzione():
+
+|||||
+|| Come si crea una lista vuota in Python?
+|+ lista = []
+|+ lista = list()
+|- lista = {}
+|- lista = new List()

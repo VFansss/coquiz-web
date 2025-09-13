@@ -1,0 +1,34 @@
+|||||
+||Quale delle seguenti affermazioni è corretta riguardo alle variabili in JavaScript?
+|- Le variabili devono sempre essere dichiarate con var
+|+ JavaScript supporta variabili dinamicamente tipizzate
+|- Tutte le variabili sono globali per default
+|- Non è possibile ridichiarare una variabile
+
+|||||
+||Quale metodo viene utilizzato per aggiungere un elemento alla fine di un array in JavaScript?
+|- append()
+|+ push()
+|- add()
+|- insert()
+
+|||||
+||Cosa restituisce l'operatore typeof quando applicato a null in JavaScript?
+|- "null"
+|+ "object"
+|- "undefined"
+|- "boolean"
+
+|||||
+||Quale delle seguenti è una funzione di ordine superiore (higher-order function)?
+|+ map()
+|- parseInt()
+|- toString()
+|- isNaN()
+
+|||||
+||In JavaScript, quale parola chiave viene utilizzata per creare una costante?
+|- var
+|- let
+|+ const
+|- final
