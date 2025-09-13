@@ -2,6 +2,7 @@
 
     import { onMount } from 'svelte';
     import { onDestroy } from 'svelte';
+    import { tick } from 'svelte';
     import { fade } from 'svelte/transition';
 
     import QuestionSheet from '$lib/coquiz-models/QuestionSheet';
@@ -95,15 +96,25 @@
 
     // Return to top screen on each question change
     $effect.pre(() => {
-
         showAnswer = false;
-
-        if (scrollPoint) {
-            scrollPoint.scrollIntoView({ behavior: 'smooth' });
-        }
-
+        
         // Make sure currentQuestionIndex is read synchronously, thus make Svelte run this function every time currentQuestionIndex changes
         const _ = currentQuestionIndex;
+    });
+
+    // Smooth scroll effect that runs after DOM updates
+    $effect(() => {
+        const _ = currentQuestionIndex; // Make this reactive to currentQuestionIndex
+        
+        // Use tick to wait for DOM updates, then scroll
+        tick().then(() => {
+            if (scrollPoint) {
+                scrollPoint.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
     });
 
     $inspect(questionList);
@@ -162,7 +173,7 @@
 {#if !showRecap}
 
     <!-- Main Quiz Content -->
-    <div class="mx-auto max-w-7xl px-4">
+    <div class="mx-auto max-w-7xl px-4" bind:this={scrollPoint}>
         <!-- Quiz Progress -->
         <div class="mb-6 text-center">
             <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200">
