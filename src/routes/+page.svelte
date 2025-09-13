@@ -342,7 +342,7 @@
 									</label>
 									
 									<!-- Controlli numerici - allineati a destra su dispositivi medi/grandi -->
-									<div class="flex items-center gap-2 ml-8 sm:ml-0">
+									<div class="flex items-center gap-2 ml-8 sm:ml-0 flex-wrap">
 										<div class="flex items-center space-x-2">
 											<button 
 												class="px-2 py-1 text-sm rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-500 text-gray-700 dark:text-gray-300 disabled:opacity-50 min-w-[24px]"
@@ -372,7 +372,7 @@
 											</button>
 										</div>
 										
-										<span class="text-sm text-gray-700 dark:text-gray-300">domande</span>
+										<span class="text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">domande</span>
 									</div>
 								</div>									<!-- Separatore -->
 									<hr class="border-gray-300 dark:border-gray-600" />
