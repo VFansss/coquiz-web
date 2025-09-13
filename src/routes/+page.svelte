@@ -163,7 +163,8 @@
 		currentFraction: 1,
 		selectedSubpart: 1,
 		limitQuestions: false,
-    	questionsLimit: 30  // default value
+    	questionsLimit: 30,  // default value
+		autoAdvanceOnComplete: false  // nuova opzione per l'avanzamento automatico
 	});
 
 	const BUILD_NUMBER = import.meta.env.VITE_BUILD_NUMBER;
@@ -394,6 +395,15 @@
 								/>
 								<span class="text-gray-700 dark:text-gray-300">Mescola ordine delle risposte</span>
 							</label>
+
+							<label class="flex items-center cursor-pointer space-x-3">
+								<input
+									type="checkbox"
+									bind:checked={appSettings.autoAdvanceOnComplete}
+									class="h-6 w-6 rounded cursor-pointer border-gray-300 text-blue-600 focus:ring-blue-500"
+								/>
+								<span class="text-gray-700 dark:text-gray-300">Avanzamento automatico quando completi una domanda</span>
+							</label>
 						</div>
 					</div>
 
@@ -435,11 +445,15 @@
 		</div>
 	{:else if currentScreen === 'QUIZ_SCREEN'}
 
-		<QuizRunner returnHomePressed={() => {
-            currentScreen = 'HOME';
-
-            return;
-        }} quizInfo={loadedQuizSheet} questionList={sessionQuestionList} />
+		<QuizRunner 
+			returnHomePressed={() => {
+				currentScreen = 'HOME';
+				return;
+			}} 
+			quizInfo={loadedQuizSheet} 
+			questionList={sessionQuestionList}
+			autoAdvanceOnComplete={appSettings.autoAdvanceOnComplete}
+		/>
 
 	{/if}
 

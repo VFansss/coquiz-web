@@ -9,7 +9,7 @@
     import QuizSheet from '$lib/coquiz-models/QuizSheet';
     import QuizQuestionSelector from './QuizQuestionSelector.svelte';
 
-    let { returnHomePressed, quizInfo, questionList } = $props();
+    let { returnHomePressed, quizInfo, questionList, autoAdvanceOnComplete = false } = $props();
 
     let currentQuestionIndex = $state(0);
     let goneToQuizEndOnce = $state(false);
@@ -96,10 +96,41 @@
             // Ora seleziona la nuova risposta con un timestamp
             singleAnswer.checked = true;
             singleAnswer.selectionOrder = ++selectionOrder;
+
+            // Controllo per auto-advance: verifica se abbiamo completato la domanda
+            if (autoAdvanceOnComplete) {
+                checkAndHandleAutoAdvance(singleQuestion);
+            }
         } else {
             // Se stiamo deselezionando, rimuovi il timestamp
             singleAnswer.checked = false;
             delete singleAnswer.selectionOrder;
+        }
+    }
+
+    function checkAndHandleAutoAdvance(singleQuestion) {
+        // Verifica se abbiamo selezionato il numero corretto di risposte
+        const selectedAnswers = singleQuestion.answerList.filter(answer => answer.checked);
+        
+        if (selectedAnswers.length === singleQuestion.correctAnswerNumber) {
+            // Abbiamo completato la domanda, verifichiamo se è corretta
+            const isCorrect = QuestionSheet.isAnswerSelectionCorrect(singleQuestion);
+            
+            if (isCorrect) {
+                // Risposta corretta: vai immediatamente alla prossima domanda
+                if (currentQuestionIndex === questionList.length - 1) {
+                    // Ultima domanda: vai al riepilogo
+                    toggleRecapScreen(true);
+                } else {
+                    // Vai alla prossima domanda
+                    currentQuestionIndex++;
+                }
+            } else {
+                // Risposta sbagliata: mostra le risposte corrette
+                setTimeout(() => {
+                    showAnswer = true;
+                }, 300); // Piccolo delay per far vedere la selezione
+            }
         }
     }
 
