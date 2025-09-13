@@ -18,6 +18,7 @@
     let showRecap = $state(false);
     let showAnswer = $state(false);
     let isHorizontalLayout = $state(false);
+    let showSuccessTick = $state(false);
 
     // Scroll related vars
     // svelte-ignore non_reactive_update
@@ -125,7 +126,18 @@
                     // Vai alla prossima domanda
                     currentQuestionIndex++;
                 }
+                
+                // Mostra il tick di successo
+                setTimeout(() => {
+                    showSuccessTick = true;
+                }, 50); // Piccolo delay per permettere al DOM di aggiornarsi
+                
+                // Nascondi il tick dopo...
+                setTimeout(() => {
+                    showSuccessTick = false;
+                }, 400);
             } else {
+
                 // Risposta sbagliata: mostra le risposte corrette
                 setTimeout(() => {
                     showAnswer = true;
@@ -165,6 +177,10 @@
     // Return to top screen on each question change
     $effect.pre(() => {
         showAnswer = false;
+        // Non resettare showSuccessTick se è in auto-advance mode
+        if (!autoAdvanceOnComplete || !showSuccessTick) {
+            showSuccessTick = false;
+        }
         
         // Make sure currentQuestionIndex is read synchronously, thus make Svelte run this function every time currentQuestionIndex changes
         const _ = currentQuestionIndex;
@@ -298,6 +314,13 @@
                             Risposte 
                             <span class="ml-2 text-sm text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-2 py-1 rounded-lg bg-gray-50 dark:bg-gray-700">
                                 {singleQuestion.correctAnswerNumber} {singleQuestion.correctAnswerNumber === 1 ? 'corretta' : 'corrette'}
+                            </span>
+                            <!-- duration set the fade-in duration-->
+                            <span 
+                                class="ml-3 text-xl transition-opacity duration-500"
+                                style="opacity: {showSuccessTick ? 1 : 0};"
+                            >
+                                ✅
                             </span>
                         </h3>
                         <div class="space-y-3">
