@@ -208,9 +208,9 @@
 						<p class="text-2xl font-semibold text-gray-800 dark:text-gray-200">
 							{loadedQuizSheet.title}
 						</p>
-						<p class="mt-2 text-gray-600 dark:text-gray-300">
+						<span class="inline-block mt-2 mb-3 text-sm text-white border border-blue-400/40 px-2 py-1 rounded-lg bg-blue-600/90">
 							Domande: {loadedQuizSheet.questionList.length}
-						</p>
+						</span>
 					</div>
 
 					<div class="flex justify-center">
