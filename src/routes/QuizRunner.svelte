@@ -112,7 +112,7 @@
 
 <!-- Top Navigation Bar -->
 <div class="mx-auto mb-8 max-w-4xl rounded-lg bg-white p-4 shadow-sm dark:bg-gray-800">
-    <div class="flex items-center justify-between">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <button
             class="rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
             onclick={() => returnHomePressed()}
@@ -124,7 +124,7 @@
         <button
             onclick={toggleTimer}
             title="Mostra/Nascondi timer"
-            class="rounded-lg bg-gray-200 px-4 py-2 text-gray-800 transition-all duration-300 ease-in-out hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 w-[200px]"
+            class="rounded-lg bg-gray-200 px-4 py-2 text-gray-800 transition-all duration-300 ease-in-out hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 w-full sm:w-[200px]"
         >
             <div class="flex items-center gap-2 justify-center relative">
                 <span>⏲️</span>
@@ -304,7 +304,7 @@
 <!-- Navigation Buttons -->
 <div class="mx-auto mt-8 max-w-4xl px-4">
     <div
-        class="flex flex-wrap justify-center gap-4 rounded-lg bg-white p-4 shadow-lg dark:bg-gray-800"
+        class="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-4 rounded-lg bg-white p-4 shadow-lg dark:bg-gray-800"
     >
         <button
             class="rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"

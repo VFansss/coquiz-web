@@ -323,47 +323,51 @@
 						<div class="space-y-4">
 							<h3 class="font-medium text-gray-900 dark:text-gray-100">Opzioni Domande</h3>
 							
-							<label class="flex items-center cursor-pointer space-x-3">
-								<input
-									type="checkbox"
-									bind:checked={appSettings.limitQuestions}
-									class="h-6 w-6 rounded cursor-pointer border-gray-300 text-blue-600 focus:ring-blue-500"
-								/>
-								<span class="text-gray-700 dark:text-gray-300">Limita quiz a</span>
+							<div class="space-y-3">
+								<!-- Prima riga: checkbox e testo -->
+								<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+									<label class="flex items-center cursor-pointer space-x-3">
+										<input
+											type="checkbox"
+											bind:checked={appSettings.limitQuestions}
+											class="h-6 w-6 rounded cursor-pointer border-gray-300 text-blue-600 focus:ring-blue-500"
+										/>
+										<span class="text-gray-700 dark:text-gray-300">Limita quiz a</span>
+									</label>
+									
+									<!-- Controlli numerici (visibili solo se attivo) -->
+									<div class="flex items-center justify-center space-x-2 sm:ml-0 ml-9">
+										<button 
+											class="px-2 py-1 rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 disabled:opacity-50"
+											disabled={appSettings.questionsLimit <= 10}
+											onclick={() => appSettings.questionsLimit = Math.max(10, appSettings.questionsLimit - 10)}
+										>
+											-
+										</button>
 								
-								<!-- Gruppo controllo numerico -->
-								<div class="flex items-center space-x-2">
-									<button 
-										class="px-2 py-1 rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 disabled:opacity-50"
-										disabled={!appSettings.limitQuestions || appSettings.questionsLimit <= 10}
-										onclick={() => appSettings.questionsLimit = Math.max(10, appSettings.questionsLimit - 10)}
-									>
-										-
-									</button>
-							
-									<input 
-										type="number"
-										bind:value={appSettings.questionsLimit}
-										min="1"
-										max={loadedQuizSheet?.questionList.length ?? 1}
-										class="w-20 rounded border border-gray-300 p-1 text-center 
-											dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
-										disabled={!appSettings.limitQuestions}
-										onclick={(e) => e.target.select()} 
-										ontouch={(e) => e.target.select()}
-									/>
-							
-									<button 
-										class="px-2 py-1 rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 disabled:opacity-50"
-										disabled={!appSettings.limitQuestions || appSettings.questionsLimit >= loadedQuizSheet?.questionList.length}
-										onclick={() => appSettings.questionsLimit = Math.min(loadedQuizSheet?.questionList.length ?? 1, appSettings.questionsLimit + 10)}
-									>
-										+
-									</button>
+										<input 
+											type="number"
+											bind:value={appSettings.questionsLimit}
+											min="1"
+											max={loadedQuizSheet?.questionList.length ?? 1}
+											class="w-20 rounded border border-gray-300 p-1 text-center 
+												dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
+											onclick={(e) => e.target.select()} 
+											ontouch={(e) => e.target.select()}
+										/>
+								
+										<button 
+											class="px-2 py-1 rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 disabled:opacity-50"
+											disabled={appSettings.questionsLimit >= loadedQuizSheet?.questionList.length}
+											onclick={() => appSettings.questionsLimit = Math.min(loadedQuizSheet?.questionList.length ?? 1, appSettings.questionsLimit + 10)}
+										>
+											+
+										</button>
+										
+										<span class="text-gray-700 dark:text-gray-300">domande</span>
+									</div>
 								</div>
-							
-								<span class="text-gray-700 dark:text-gray-300">domande</span>
-							</label>
+							</div>
 
 							<label class="flex items-center cursor-pointer space-x-3">
 								<input
