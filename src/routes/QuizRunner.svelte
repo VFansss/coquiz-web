@@ -23,6 +23,9 @@
     let quizTitleSectionPoint; // Used to store the scroll position when switching between questions
     // svelte-ignore non_reactive_update
     let answersSectionPoint; // Used to scroll to answers section when showing answers
+    
+    // Selection order tracking
+    let selectionOrder = $state(0); // Counter to track selection order
 
     let answeredQuestions = $derived(
         questionList.filter((question) => QuestionSheet.isAnswerSelectionComplete(question)).length
@@ -64,17 +67,38 @@
     }
 
     function handleCheckboxChange(event, singleQuestion, singleAnswer) {
+        // Se stiamo spuntando una checkbox
         if (!singleAnswer.checked) {
-            const checkedAnswers = singleQuestion.answerList.filter((answer) => answer.checked).length;
-
-            if (checkedAnswers >= singleQuestion.correctAnswerNumber) {
-                event.preventDefault();
-                event.stopPropagation();
-                alert(
-                    'Hai selezionato troppe opzioni, puoi selezionarne al massimo ' +
-                        singleQuestion.correctAnswerNumber
-                );
+            // Prima conta quante risposte sono già selezionate
+            const currentlySelected = singleQuestion.answerList.filter((answer) => answer.checked).length;
+            
+            // Se stiamo per superare il limite massimo
+            if (currentlySelected >= singleQuestion.correctAnswerNumber) {
+                // Trova la risposta selezionata più vecchia e deselezionala
+                let oldestSelection = null;
+                let oldestOrder = Infinity;
+                
+                singleQuestion.answerList.forEach((answer) => {
+                    if (answer.checked && answer.selectionOrder < oldestOrder) {
+                        oldestOrder = answer.selectionOrder;
+                        oldestSelection = answer;
+                    }
+                });
+                
+                // Deseleziona la risposta più vecchia
+                if (oldestSelection) {
+                    oldestSelection.checked = false;
+                    delete oldestSelection.selectionOrder;
+                }
             }
+            
+            // Ora seleziona la nuova risposta con un timestamp
+            singleAnswer.checked = true;
+            singleAnswer.selectionOrder = ++selectionOrder;
+        } else {
+            // Se stiamo deselezionando, rimuovi il timestamp
+            singleAnswer.checked = false;
+            delete singleAnswer.selectionOrder;
         }
     }
 
