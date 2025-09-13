@@ -10,7 +10,9 @@ export default class PipeQuizFormat extends QuizFormat {
 
     detect(content) {
         try {
-            const lines = content.split('\n');
+            // Normalize line endings first
+            const normalizedContent = this._normalizeLineEndings(content);
+            const lines = normalizedContent.split('\n');
             
             // Let's check if the file starts in the correct format
             if (lines[0] !== '|||||' || lines[1].substring(0,2) !== '||') {
@@ -60,12 +62,15 @@ export default class PipeQuizFormat extends QuizFormat {
     }
 
     getQuizSheet(fileName, content) {
+        // Normalize line endings first
+        const normalizedContent = this._normalizeLineEndings(content);
+        
         const quizSheet = new QuizSheet();
         quizSheet.title = fileName;
         quizSheet.quizFormat = this.name;
 
         // Phase 1: Identify blocks (questions)
-        const blocks = this._findQuestionBlocks(content);
+        const blocks = this._findQuestionBlocks(normalizedContent);
         
         // Phase 2: Parse each block (questions)
         blocks.forEach((block, index) => {
@@ -78,8 +83,19 @@ export default class PipeQuizFormat extends QuizFormat {
         return quizSheet;
     }
 
+    /**
+     * Normalizes line endings to Unix-style (\n)
+     * Handles Windows (\r\n), classic Mac (\r), and Unix (\n) line endings
+     */
+    _normalizeLineEndings(content) {
+        return content
+            .replace(/\r\n/g, '\n')  // Convert Windows CRLF to LF
+            .replace(/\r/g, '\n');   // Convert classic Mac CR to LF
+    }
+
     _findQuestionBlocks(content) {
         const blocks = [];
+        // Content is already normalized, so we can safely split by \n
         const lines = content.split('\n').map(line => line.trim());
         
         let currentBlock = [];
