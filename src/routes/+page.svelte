@@ -239,6 +239,10 @@
 									<p class="mt-4 text-center text-gray-600 dark:text-gray-400">
 										Dell'intero quiz, prenderai solamente una frazione da {selectedQuizPartLength} domande
 									</p>
+								{:else}
+									<p class="mt-4 text-center text-gray-600 dark:text-gray-400">
+										Affronta l'intero quiz da {selectedQuizPartLength} domande
+									</p>
 								{/if}
 							</div>
 						{/if}
