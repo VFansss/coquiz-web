@@ -7,6 +7,7 @@
 
     import QuestionSheet from '$lib/coquiz-models/QuestionSheet';
     import QuizSheet from '$lib/coquiz-models/QuizSheet';
+    import QuizQuestionSelector from './QuizQuestionSelector.svelte';
 
     let { returnHomePressed, quizInfo, questionList } = $props();
 
@@ -122,6 +123,12 @@
         }
 
         return firstNonAnseredQuestionIndex;
+    }
+
+    function handleQuestionSelect(questionIndex) {
+        // Nascondi il recap e vai alla domanda selezionata
+        toggleRecapScreen(false);
+        currentQuestionIndex = questionIndex;
     }
 
     // Return to top screen on each question change
@@ -331,6 +338,15 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Question Selector Component -->
+                <div class="mt-8">
+                    <QuizQuestionSelector 
+                        {questionList} 
+                        showCorrectAnswer={true}
+                        onQuestionSelect={handleQuestionSelect}
+                    />
+                </div>
             {:else}
                 <div class="text-center">
                     <p class="text-xl text-gray-700 dark:text-gray-300">
@@ -351,6 +367,15 @@
                     >
                         Vai alla prima domanda senza risposta
                     </button>
+                </div>
+
+                <!-- Question Selector Component -->
+                <div class="mt-8">
+                    <QuizQuestionSelector 
+                        {questionList} 
+                        showCorrectAnswer={false}
+                        onQuestionSelect={handleQuestionSelect}
+                    />
                 </div>
             {/if}
         </div>
