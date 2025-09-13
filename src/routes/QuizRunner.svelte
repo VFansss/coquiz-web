@@ -204,7 +204,7 @@
 </script>
 
 <!-- Top Navigation Bar -->
-<div class="mx-auto mb-8 max-w-4xl rounded-lg bg-white p-4 shadow-sm dark:bg-gray-800">
+<div class="mx-auto mb-8 max-w-4xl rounded-lg bg-white p-2 sm:p-4 shadow-sm dark:bg-gray-800">
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <button
             class="rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
@@ -255,7 +255,7 @@
 {#if !showRecap}
 
     <!-- Main Quiz Content -->
-    <div class="mx-auto max-w-7xl px-4" bind:this={quizTitleSectionPoint}>
+    <div class="mx-auto max-w-7xl px-2 sm:px-4" bind:this={quizTitleSectionPoint}>
         <!-- Quiz Progress -->
         <div class="mb-6 text-center">
             <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200">
@@ -264,10 +264,10 @@
         </div>
 
         <!-- Quiz Content Layout -->
-        <div class={`flex ${isHorizontalLayout ? 'flex-row' : 'flex-col'} gap-8`}>
+        <div class={`flex ${isHorizontalLayout ? 'flex-row' : 'flex-col'} gap-4 sm:gap-8`}>
             <!-- Question Section -->
             <div
-                class={`${isHorizontalLayout ? 'w-1/2' : 'w-full'} rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800`}
+                class={`${isHorizontalLayout ? 'w-1/2' : 'w-full'} rounded-lg bg-white p-3 sm:p-6 shadow-lg dark:bg-gray-800`}
             >
             <h3 class="mb-4 text-lg font-medium text-gray-900 dark:text-gray-100">
                 Domanda
@@ -289,7 +289,7 @@
 
             <!-- Answers Section -->
             <div
-                class={`${isHorizontalLayout ? 'w-1/2' : 'w-full'} rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800`}
+                class={`${isHorizontalLayout ? 'w-1/2' : 'w-full'} rounded-lg bg-white p-3 sm:p-6 shadow-lg dark:bg-gray-800`}
                 bind:this={answersSectionPoint}
             >
                 {#each questionList as singleQuestion, questionIndex}
@@ -303,7 +303,7 @@
                         <div class="space-y-3">
                             {#each singleQuestion.answerList as singleAnswer, answerIndex}
                                 <label
-                                    class="flex cursor-pointer items-center space-x-3 rounded-lg p-3 hover:bg-gray-50 dark:hover:bg-gray-700"
+                                    class="flex cursor-pointer items-center space-x-2 sm:space-x-3 rounded-lg p-2 sm:p-3 hover:bg-gray-50 dark:hover:bg-gray-700"
                                 >
                                     <input
                                         type="checkbox"
@@ -327,8 +327,8 @@
     </div>
 {:else}
     <!-- Recap screen -->
-    <div class="mx-auto max-w-2xl px-4">
-        <div class="rounded-lg bg-white p-8 shadow-lg dark:bg-gray-800">
+    <div class="mx-auto max-w-2xl px-2 sm:px-4">
+        <div class="rounded-lg bg-white p-4 sm:p-8 shadow-lg dark:bg-gray-800">
             <!-- Summary Title -->
             <h2 class="mb-6 text-center text-3xl font-bold text-gray-900 dark:text-gray-100">
                 Riepilogo
@@ -414,9 +414,9 @@
 {/if}
 
 <!-- Navigation Buttons -->
-<div class="mx-auto mt-8 max-w-4xl px-4">
+<div class="mx-auto mt-8 max-w-4xl px-2 sm:px-4">
     <div
-        class="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-4 rounded-lg bg-white p-4 shadow-lg dark:bg-gray-800"
+        class="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-4 rounded-lg bg-white p-3 sm:p-4 shadow-lg dark:bg-gray-800"
     >
         <button
             class="rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
