@@ -1,4 +1,9 @@
 <script>
+
+    import { onMount } from 'svelte';
+    import { onDestroy } from 'svelte';
+    import { fade } from 'svelte/transition';
+
     import QuestionSheet from '$lib/coquiz-models/QuestionSheet';
     import QuizSheet from '$lib/coquiz-models/QuizSheet';
 
@@ -17,6 +22,33 @@
     let answeredQuestions = $derived(
         questionList.filter((question) => QuestionSheet.isAnswerSelectionComplete(question)).length
     );
+
+    // Timer related vars
+
+    let minutesElapsed = $state(0);
+	let timerInterval;
+	let showTimer = $state(true);
+
+    onMount(() => {
+		console.log('the component has mounted');
+        startTimer();
+	});
+
+    onDestroy(() => {
+		clearInterval(timerInterval);
+	});
+
+    function startTimer() {
+		timerInterval = setInterval(() => {
+			minutesElapsed += 1;
+        }, 60000);
+	}
+
+    function toggleTimer() {
+		showTimer = !showTimer;
+	}
+
+    // Inner state functions
 
     function toggleRecapScreen(value) {
         showRecap = value;
@@ -61,6 +93,7 @@
         return firstNonAnseredQuestionIndex;
     }
 
+    // Return to top screen on each question change
     $effect.pre(() => {
 
         showAnswer = false;
@@ -85,6 +118,36 @@
             onclick={() => returnHomePressed()}
         >
             Torna alla home
+        </button>
+
+        <!-- Toggle timer -->
+        <button
+            onclick={toggleTimer}
+            title="Mostra/Nascondi timer"
+            class="rounded-lg bg-gray-200 px-4 py-2 text-gray-800 transition-all duration-300 ease-in-out hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 w-[200px]"
+        >
+            <div class="flex items-center gap-2 justify-center relative">
+                <span>⏲️</span>
+                <div class="relative w-24 h-6 flex items-center justify-center">
+                    {#if showTimer}
+                        <span 
+                            in:fade={{ duration: 600, delay: 300 }} 
+                            out:fade={{ duration: 300 }} 
+                            class="absolute inset-0 flex items-center justify-center"
+                        >
+                            {minutesElapsed === 0 ? '<1m' : `${minutesElapsed}m`}
+                        </span>
+                    {:else}
+                        <span 
+                            in:fade={{ duration: 600, delay: 300 }} 
+                            out:fade={{ duration: 300 }} 
+                            class="absolute inset-0 flex items-center justify-center"
+                        >
+                            Mostra Timer
+                        </span>
+                    {/if}
+                </div>
+            </div>
         </button>
 
         <button

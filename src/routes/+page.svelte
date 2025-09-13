@@ -153,7 +153,7 @@
             </button>
         </div>
 
-        <!-- Header section with logo and title - ora con grid -->
+        <!-- Header section with logo and title -->
 		<div class="flex flex-wrap justify-center items-center gap-x-2 md:gap-x-12 gap-y-4 mb-12 md:mb-16 text-center">
 			<img
 				src={base+"/coquiz-logo.svg"}
