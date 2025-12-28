@@ -20,6 +20,12 @@
     let isHorizontalLayout = $state(false);
     let showSuccessTick = $state(false);
 
+    // Management of tab close blocking during the quiz
+    const beforeUnloadHandler = (event) => {
+        event.preventDefault();
+        event.returnValue = '';
+    };
+
     // Scroll related vars
     // svelte-ignore non_reactive_update
     let quizTitleSectionPoint; // Used to store the scroll position when switching between questions
@@ -46,6 +52,7 @@
 
     onDestroy(() => {
 		clearInterval(timerInterval);
+		window.removeEventListener('beforeunload', beforeUnloadHandler);
 	});
 
     function startTimer() {
@@ -212,6 +219,14 @@
                     block: 'start'
                 });
             });
+        }
+    });
+
+    // Enable the tab close blocking only while the quiz is running (not in recap)
+    $effect(() => {
+        if (!showRecap) {
+            window.addEventListener('beforeunload', beforeUnloadHandler);
+            return () => window.removeEventListener('beforeunload', beforeUnloadHandler);
         }
     });
 
