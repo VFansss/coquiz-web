@@ -96,13 +96,14 @@ export default class PipeQuizFormat extends QuizFormat {
     _findQuestionBlocks(content) {
         const blocks = [];
         // Content is already normalized, so we can safely split by \n
-        const lines = content.split('\n').map(line => line.trim());
+        const lines = content.split('\n'); // lascia le righe grezze
         
         let currentBlock = [];
         let isInsideBlock = false;
 
         lines.forEach(line => {
-            if (line === '|||||') {
+            const trimmed = line.trim();
+            if (trimmed === '|||||') {
                 if (isInsideBlock) {
                     // End of current block
                     if (currentBlock.length > 0) {
@@ -111,8 +112,7 @@ export default class PipeQuizFormat extends QuizFormat {
                     currentBlock = [];
                 }
                 isInsideBlock = true;
-            } 
-            else if (isInsideBlock) {
+            } else if (isInsideBlock) {
                 currentBlock.push(line);
             }
         });
@@ -126,24 +126,25 @@ export default class PipeQuizFormat extends QuizFormat {
     }
 
     _parseQuestionBlock(block, questionNumber) {
-        const lines = block.split('\n').map(line => line.trim()).filter(line => line.length > 0);
-        
-        // Find the question text
+        const lines = block.split('\n'); // lascia i newline
         const questionTextLines = [];
         let i = 0;
-        
-        // Look for the first line that starts with ||
-        while (i < lines.length && !lines[i].startsWith('||')) {
-            i++;
-        }
-
-        // Collect all question lines until the first answer
-        while (i < lines.length && !lines[i].startsWith('|-') && !lines[i].startsWith('|+')) {
-            if (lines[i].startsWith('||')) {
-                questionTextLines.push(lines[i].substring(2).trim());
+ 
+         // Look for the first line that starts with ||
+         while (i < lines.length && !lines[i].trim().startsWith('||')) {
+             i++;
+         }
+ 
+         // Collect all question lines until the first answer
+         while (i < lines.length && !lines[i].trim().startsWith('|-') && !lines[i].trim().startsWith('|+')) {
+            const trimmed = lines[i].trim();
+            if (trimmed.startsWith('||')) {
+                questionTextLines.push(trimmed.substring(2).trimStart());
+            } else {
+                questionTextLines.push(lines[i]);
             }
-            i++;
-        }
+             i++;
+         }
 
         // If we haven't found question text, the block is not valid
         if (questionTextLines.length === 0) {
@@ -154,10 +155,10 @@ export default class PipeQuizFormat extends QuizFormat {
 
         // Collect all answers
         while (i < lines.length) {
-            const line = lines[i];
-            if (line.startsWith('|-') || line.startsWith('|+')) {
-                const isCorrect = line.startsWith('|+');
-                const answerText = line.substring(2).trim();
+            const trimmed = lines[i].trim();
+            if (trimmed.startsWith('|-') || trimmed.startsWith('|+')) {
+                const isCorrect = trimmed.startsWith('|+');
+                const answerText = trimmed.substring(2).trim();
                 const answer = new AnswerSheet(answerText, isCorrect);
                 questionSheet.addAnswer(answer);
                 

@@ -310,7 +310,7 @@
                 {#each questionList as singleQuestion, questionIndex}
                     {#if currentQuestionIndex === questionIndex}
                         <div class="space-y-4">
-                            <p class="text-gray-800 dark:text-gray-200">
+                            <p class="text-gray-800 dark:text-gray-200 whitespace-pre-line">
                                 {singleQuestion.body}
                             </p>
                         </div>
