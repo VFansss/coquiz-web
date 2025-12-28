@@ -18,6 +18,7 @@
     let showRecap = $state(false);
     let showAnswer = $state(false);
     let isHorizontalLayout = $state(false);
+    const LAYOUT_STORAGE_KEY = 'coquiz-layout-mode';
     let showSuccessTick = $state(false);
 
     // Management of tab close blocking during the quiz
@@ -47,7 +48,10 @@
 
     onMount(() => {
 		console.log('the component has mounted');
-        startTimer();
+        const savedLayout = localStorage.getItem(LAYOUT_STORAGE_KEY);
+        if (savedLayout === 'horizontal') isHorizontalLayout = true;
+        if (savedLayout === 'vertical') isHorizontalLayout = false;
+		startTimer();
 	});
 
     onDestroy(() => {
@@ -228,6 +232,12 @@
             window.addEventListener('beforeunload', beforeUnloadHandler);
             return () => window.removeEventListener('beforeunload', beforeUnloadHandler);
         }
+    });
+
+    // Persist layout choice
+    $effect(() => {
+        if (typeof localStorage === 'undefined') return;
+        localStorage.setItem(LAYOUT_STORAGE_KEY, isHorizontalLayout ? 'horizontal' : 'vertical');
     });
 
     $inspect(questionList);
